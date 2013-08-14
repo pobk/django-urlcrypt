@@ -8,7 +8,7 @@ try:
 except ImportError:
     import sha as sha_hmac
 
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 
 from urlcrypt.conf import SECRET_KEY, URLCRYPT_USE_RSA_ENCRYPTION
 
@@ -64,7 +64,7 @@ def decode_token(token, keys):
 
 def secret_key_f(user_id, *args):
     # generate a secret key given the user id
-    user = User.objects.get(id=int(user_id))
+    user = get_user_model().objects.get(id=int(user_id))
     return user.password + SECRET_KEY
 
 def generate_login_token(user, url):
